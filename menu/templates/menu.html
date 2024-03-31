@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'tabel' %}طاولة:{{table_num}}{% endblock %}
+{% block 'content' %}
+<input type="hidden" id="table-id-input" class="table-id-input" value="{{ table_num }}">
+<div class="text-center"> إختر التصنيف</div>
+<div class="category-bar text-center mb-4 ">
+    <div class="category-scroll">
+        <select id="categoryFilter">
+            <option value="all">كل العناصر</option>
+            {% for category in categories %}
+                <option value="{{ category.slug }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<div class="container">
+    
+        <!-- Product card content -->
+        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
+            {% for product in products %}
+              <div class="col text-center" data-category="{{ product.category.slug }}">
+                <div class="card text-center w-100">
+                  <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-img-top" height="250" width="150">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">السعر: {{ product.price }} ل.س</p>
+                    <p class="card-text">{{ product.category }}</p>
+                    <input type="hidden" id="table-id-input-{{ product.id }}" class="table-id-input" value="{{ table_num }}">
+                    <input type="hidden" id="product-id-input-{{ product.id }}" class="product-id-input" value="{{ product.id }}">
+                    <input type="hidden" id="quantity-input-{{ product.id }}" class="quantity-input" value="1">
+                    <button id="add-to-cart-button-{{ product.id }}" class="btn btn-primary">أضف إلى السلة</button>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+
+</div>
+
+<script src="{% static 'js/menu.js'%}" type="text/javascript"></script>
+<script src="{% static 'js/cart.js'%}" type="text/javascript"></script>
+<script src="{% static 'js/order.js'%}" type="text/javascript"></script>
+
+ {% endblock %}

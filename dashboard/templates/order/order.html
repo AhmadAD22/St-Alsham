@@ -1,0 +1,54 @@
+{% extends '../baset.html' %}
+{% block title %} 
+ Order
+{% endblock %}
+
+{% block content %}
+<div class="text-center">
+
+<div class="card w-50 text-center">
+    <div class="card-body">
+         <p class="card-text h3"> طلب رقم {{ order.id }}</p>
+         <p class="card-text h5">الحالة:{% if order.performed %}تم {% else %} لم يتم {% endif %}</p>
+         {% if order.performed %}
+         {% else %}
+         <a href="{% url 'perform_orders' order.id %}" class="btn btn-primary " role="button" rel="tooltip">
+          إتمام الطلب
+        </a>
+        {% endif %}
+    </div>
+</div>
+</div>
+<div class="text-center">
+    <div class="">
+      <p class="card-text h6">{{ order.table }}</p>
+      <p class="card-text text-primary">السعر الإجمالي للطلب: {{ order.get_total_price }}</p>
+      <p class="card-text">{{ order.created_at }}</p>
+    </div>
+  </div>
+  {% if order.orderitem_set.exists %}
+    <table class="table table-hover  table-responsive-md text-center" dir="rtl">
+      <thead>
+        <tr>
+          <th>المنتج</th>
+          <th>الكمية</th>
+          <th>السعر</th>
+          <th>السعر الكلي</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order_item in order.orderitem_set.all %}
+          <tr>
+            <td>{{ order_item.product.name }}</td>
+            <td>{{ order_item.quantity }}</td>
+            <td>{{ order_item.price }}</td>
+            <td>{{ order_item.get_item_total }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No order items found.</p>
+  {% endif %}
+
+{% endblock %}

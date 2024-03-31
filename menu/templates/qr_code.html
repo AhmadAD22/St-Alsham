@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code</title>
+</head>
+<body>
+    {{ MEDIA_URL }}
+    <h1>QR Code for User: {{ username }}</h1>
+    <img src="/media/qr_codes/{{ username }}_wifi_qr_code.png/" alt="User QR Code">
+
+</body>
+</html>
